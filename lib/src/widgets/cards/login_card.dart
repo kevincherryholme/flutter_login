@@ -50,10 +50,12 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   final _userFieldKey = GlobalKey<FormFieldState>();
+  final _usernameFocusNode = FocusNode();
   final _userFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _confirmPasswordFocusNode = FocusNode();
 
+  late TextEditingController _usernameController;
   late TextEditingController _nameController;
   late TextEditingController _passController;
   late TextEditingController _confirmPassController;
@@ -82,6 +84,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     super.initState();
 
     final auth = Provider.of<Auth>(context, listen: false);
+    _usernameController = TextEditingController(text: auth.confirmPassword);
     _nameController = TextEditingController(text: auth.email);
     _passController = TextEditingController(text: auth.password);
     _confirmPassController = TextEditingController(text: auth.confirmPassword);
@@ -138,6 +141,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   @override
   void dispose() {
     widget.loadingController.removeStatusListener(handleLoadingAnimationStatus);
+    _usernameFocusNode.dispose();
     _userFocusNode.dispose();
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
@@ -356,7 +360,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: messages.userHint ?? TextFieldUtils.getLabelText(widget.userType),
       autofillHints: _isSubmitting ? null : [TextFieldUtils.getAutofillHints(widget.userType)],
-      prefixIcon: TextFieldUtils.getPrefixIcon(widget.userType),
+      prefixIcon: const Icon(Icons.email),
       keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
       textInputAction: TextInputAction.next,
       focusNode: _userFocusNode,
@@ -397,19 +401,20 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     double width,
     Auth auth,
   ) {
-    return AnimatedPasswordTextFormField(
-      animatedWidth: width,
+    return AnimatedTextFormField(
+      width: width,
       enabled: auth.isSignup,
       loadingController: widget.loadingController,
       inertiaController: _postSwitchAuthController,
       inertiaDirection: TextFieldInertiaDirection.right,
       labelText: "Username",
-      controller: _confirmPassController,
-      textInputAction: TextInputAction.done,
-      focusNode: _confirmPasswordFocusNode,
-      onFieldSubmitted: (value) => _submit(),
+      controller: _usernameController,
+      textInputAction: TextInputAction.next,
+      focusNode: _usernameFocusNode,
+      onFieldSubmitted: (value) => FocusScope.of(context).requestFocus(_userFocusNode),
       validator: auth.isSignup ? widget.usernameValidator : (value) => null,
       onSaved: (value) => auth.username = value!,
+      prefixIcon: const Icon(FontAwesomeIcons.solidCircleUser),
     );
   }
 
@@ -707,11 +712,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                     auth,
                   ),
                 ),
-                for (var e in auth.termsOfService)
-                  TermCheckbox(
-                    termOfService: e,
-                    validation: auth.isSignup,
-                  ),
               ],
             ),
           ),

@@ -24,8 +24,7 @@ class _RecoverCard extends StatefulWidget {
   _RecoverCardState createState() => _RecoverCardState();
 }
 
-class _RecoverCardState extends State<_RecoverCard>
-    with SingleTickerProviderStateMixin {
+class _RecoverCardState extends State<_RecoverCard> with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formRecoverKey = GlobalKey();
 
   bool _isSubmitting = false;
@@ -92,8 +91,8 @@ class _RecoverCardState extends State<_RecoverCard>
       loadingController: widget.loadingController,
       userType: widget.userType,
       width: width,
-      labelText: messages.userHint,
-      prefixIcon: const Icon(FontAwesomeIcons.solidCircleUser),
+      labelText: "Email",
+      prefixIcon: const Icon(Icons.email),
       keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
       autofillHints: [TextFieldUtils.getAutofillHints(widget.userType)],
       textInputAction: TextInputAction.done,
@@ -116,10 +115,7 @@ class _RecoverCardState extends State<_RecoverCard>
     LoginMessages messages,
     LoginTheme? loginTheme,
   ) {
-    final calculatedTextColor =
-        (theme.cardTheme.color!.computeLuminance() < 0.5)
-            ? Colors.white
-            : theme.primaryColor;
+    final calculatedTextColor = (theme.cardTheme.color!.computeLuminance() < 0.5) ? Colors.white : theme.primaryColor;
     return MaterialButton(
       onPressed: !_isSubmitting
           ? () {
@@ -169,9 +165,7 @@ class _RecoverCardState extends State<_RecoverCard>
                 _buildRecoverNameField(textFieldWidth, messages, auth),
                 const SizedBox(height: 20),
                 Text(
-                  auth.onConfirmRecover != null
-                      ? messages.recoverCodePasswordDescription
-                      : messages.recoverPasswordDescription,
+                  auth.onConfirmRecover != null ? messages.recoverCodePasswordDescription : messages.recoverPasswordDescription,
                   key: kRecoverPasswordDescriptionKey,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium,
