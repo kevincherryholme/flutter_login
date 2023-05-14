@@ -4,6 +4,7 @@ class _LoginCard extends StatefulWidget {
   const _LoginCard({
     super.key,
     required this.loadingController,
+    required this.usernameValidator,
     required this.userValidator,
     required this.validateUserImmediately,
     required this.passwordValidator,
@@ -23,6 +24,7 @@ class _LoginCard extends StatefulWidget {
   });
 
   final AnimationController loadingController;
+  final FormFieldValidator<String>? usernameValidator;
   final FormFieldValidator<String>? userValidator;
   final bool? validateUserImmediately;
   final FormFieldValidator<String>? passwordValidator;
@@ -189,6 +191,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       if (!widget.requireAdditionalSignUpFields) {
         error = await auth.onSignup!(
           SignupData.fromSignupForm(
+            username: auth.username,
             name: auth.email,
             password: auth.password,
             termsOfService: auth.getTermsOfServiceResults(),
@@ -198,6 +201,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         if (auth.beforeAdditionalFieldsCallback != null) {
           error = await auth.beforeAdditionalFieldsCallback!(
             SignupData.fromSignupForm(
+              username: auth.username,
               name: auth.email,
               password: auth.password,
               termsOfService: auth.getTermsOfServiceResults(),
@@ -310,6 +314,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       if (auth.beforeAdditionalFieldsCallback != null) {
         error = await auth.beforeAdditionalFieldsCallback!(
           SignupData.fromSignupForm(
+            username: auth.username,
             name: auth.email,
             password: auth.password,
             termsOfService: auth.getTermsOfServiceResults(),
@@ -385,6 +390,26 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       validator: widget.passwordValidator,
       onSaved: (value) => auth.password = value!,
       enabled: !_isSubmitting,
+    );
+  }
+
+  Widget _buildUsernameField(
+    double width,
+    Auth auth,
+  ) {
+    return AnimatedPasswordTextFormField(
+      animatedWidth: width,
+      enabled: auth.isSignup,
+      loadingController: widget.loadingController,
+      inertiaController: _postSwitchAuthController,
+      inertiaDirection: TextFieldInertiaDirection.right,
+      labelText: "Username",
+      controller: _confirmPassController,
+      textInputAction: TextInputAction.done,
+      focusNode: _confirmPasswordFocusNode,
+      onFieldSubmitted: (value) => _submit(),
+      validator: auth.isSignup ? widget.usernameValidator : (value) => null,
+      onSaved: (value) => auth.username = value!,
     );
   }
 
@@ -594,7 +619,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       children: iconProvidersList.map((loginProvider) {
         final index = iconProvidersList.indexOf(loginProvider);
         return Padding(
-          padding: loginTheme.providerButtonPadding ?? const EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+          padding: loginTheme.providerButtonPadding ?? const EdgeInsets.only(left: 6, right: 6, top: 8),
           child: ScaleTransition(
             scale: _buttonScaleAnimation,
             child: Column(
@@ -664,6 +689,33 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       key: _formKey,
       child: Column(
         children: [
+          ExpandableContainer(
+            backgroundColor: _switchAuthController.isCompleted ? null : theme.colorScheme.secondary,
+            controller: _switchAuthController,
+            initialState: isLogin ? ExpandableContainerState.shrunk : ExpandableContainerState.expanded,
+            alignment: Alignment.topLeft,
+            color: theme.cardTheme.color,
+            width: cardWidth,
+            padding: const EdgeInsets.symmetric(horizontal: cardPadding),
+            onExpandCompleted: () => _postSwitchAuthController.forward(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: _buildConfirmPasswordField(
+                    textFieldWidth,
+                    messages,
+                    auth,
+                  ),
+                ),
+                for (var e in auth.termsOfService)
+                  TermCheckbox(
+                    termOfService: e,
+                    validation: auth.isSignup,
+                  ),
+              ],
+            ),
+          ),
           Container(
             padding: const EdgeInsets.only(
               left: cardPadding,
@@ -716,6 +768,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             width: cardWidth,
             child: Column(
               children: <Widget>[
+                Container(height: 4),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

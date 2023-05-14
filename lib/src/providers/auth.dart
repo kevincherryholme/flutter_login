@@ -55,12 +55,14 @@ class Auth with ChangeNotifier {
     this.confirmSignupRequired,
     this.onResendCode,
     this.beforeAdditionalFieldsCallback,
+    String username = '',
     String email = '',
     String password = '',
     String confirmPassword = '',
     AuthMode initialAuthMode = AuthMode.login,
     this.termsOfService = const [],
-  })  : _email = email,
+  })  : _username = username,
+        _email = email,
         _password = password,
         _confirmPassword = confirmPassword,
         _mode = initialAuthMode;
@@ -109,6 +111,13 @@ class Auth with ChangeNotifier {
     return mode;
   }
 
+  String _username = '';
+  String get username => _username;
+  set username(String username) {
+    _username = username;
+    notifyListeners();
+  }
+
   String _email = '';
   String get email => _email;
   set email(String email) {
@@ -138,8 +147,6 @@ class Auth with ChangeNotifier {
   }
 
   List<TermOfServiceResult> getTermsOfServiceResults() {
-    return termsOfService
-        .map((e) => TermOfServiceResult(term: e, accepted: e.checked))
-        .toList();
+    return termsOfService.map((e) => TermOfServiceResult(term: e, accepted: e.checked)).toList();
   }
 }

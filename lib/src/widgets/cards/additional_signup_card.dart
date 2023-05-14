@@ -28,8 +28,7 @@ class _AdditionalSignUpCard extends StatefulWidget {
   _AdditionalSignUpCardState createState() => _AdditionalSignUpCardState();
 }
 
-class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard>
-    with TickerProviderStateMixin {
+class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formCompleteSignupKey = GlobalKey();
 
   // Used to remember all text controllers
@@ -123,8 +122,7 @@ class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard>
 
     // We have to convert the Map<String, TextEditingController> to a Map<String, String>
     // and pass it to the function given by the user
-    auth.additionalSignupData =
-        _nameControllers.map((key, value) => MapEntry(key, value.text));
+    auth.additionalSignupData = _nameControllers.map((key, value) => MapEntry(key, value.text));
 
     switch (auth.authType) {
       case AuthType.provider:
@@ -137,6 +135,7 @@ class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard>
       case AuthType.userPassword:
         error = await auth.onSignup!(
           SignupData.fromSignupForm(
+            username: auth.username,
             name: auth.email,
             password: auth.password,
             additionalSignupData: auth.additionalSignupData,
@@ -180,16 +179,10 @@ class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard>
               loadingController: widget.loadingController,
               width: width,
               labelText: formField.displayName,
-              prefixIcon: formField.icon ??
-                  const Icon(FontAwesomeIcons.solidCircleUser),
+              prefixIcon: formField.icon ?? const Icon(FontAwesomeIcons.solidCircleUser),
               keyboardType: TextFieldUtils.getKeyboardType(formField.userType),
-              autofillHints: [
-                TextFieldUtils.getAutofillHints(formField.userType)
-              ],
-              textInputAction:
-                  formField.keyName == widget.formFields.last.keyName
-                      ? TextInputAction.done
-                      : TextInputAction.next,
+              autofillHints: [TextFieldUtils.getAutofillHints(formField.userType)],
+              textInputAction: formField.keyName == widget.formFields.last.keyName ? TextInputAction.done : TextInputAction.next,
               validator: formField.fieldValidator,
               tooltip: formField.tooltip,
             ),
@@ -218,10 +211,7 @@ class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard>
     LoginMessages messages,
     LoginTheme? loginTheme,
   ) {
-    final calculatedTextColor =
-        (theme.cardTheme.color!.computeLuminance() < 0.5)
-            ? Colors.white
-            : theme.primaryColor;
+    final calculatedTextColor = (theme.cardTheme.color!.computeLuminance() < 0.5) ? Colors.white : theme.primaryColor;
     return ScaleTransition(
       scale: _buttonScaleAnimation,
       child: MaterialButton(

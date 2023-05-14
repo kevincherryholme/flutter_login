@@ -20,8 +20,7 @@ class _ConfirmSignupCard extends StatefulWidget {
   _ConfirmSignupCardState createState() => _ConfirmSignupCardState();
 }
 
-class _ConfirmSignupCardState extends State<_ConfirmSignupCard>
-    with SingleTickerProviderStateMixin {
+class _ConfirmSignupCardState extends State<_ConfirmSignupCard> with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formRecoverKey = GlobalKey();
 
   // List of animation controller for every field
@@ -101,6 +100,7 @@ class _ConfirmSignupCardState extends State<_ConfirmSignupCard>
     setState(() => _isSubmitting = true);
     final error = await auth.onResendCode!(
       SignupData.fromSignupForm(
+        username: auth.username,
         name: auth.email,
         password: auth.password,
         termsOfService: auth.getTermsOfServiceResults(),

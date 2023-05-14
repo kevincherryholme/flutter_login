@@ -35,8 +35,7 @@ List<LoginData> loginStubCallback(MockCallback mockCallback) {
   when(mockCallback.passwordValidator('invalid-name')).thenReturn('Invalid!');
 
   when(mockCallback.onLogin(user)).thenAnswer((_) => null);
-  when(mockCallback.onLogin(invalidUser))
-      .thenAnswer((_) => Future.value('Invalid!'));
+  when(mockCallback.onLogin(invalidUser)).thenAnswer((_) => Future.value('Invalid!'));
 
   return [user, invalidUser];
 }
@@ -44,10 +43,8 @@ List<LoginData> loginStubCallback(MockCallback mockCallback) {
 List<SignupData> signupStubCallback(MockCallback mockCallback) {
   reset(mockCallback);
 
-  final user =
-      SignupData.fromSignupForm(name: 'near@gmail.com', password: '12345');
-  final invalidUser =
-      SignupData.fromSignupForm(name: 'not.exists@gmail.com', password: '');
+  final user = SignupData.fromSignupForm(username: "johny", name: 'near@gmail.com', password: '12345');
+  final invalidUser = SignupData.fromSignupForm(username: "johny", name: 'not.exists@gmail.com', password: '');
 
   when(mockCallback.userValidator(user.name)).thenReturn(null);
   when(mockCallback.userValidator('invalid-name')).thenReturn('Invalid!');
@@ -56,8 +53,7 @@ List<SignupData> signupStubCallback(MockCallback mockCallback) {
   when(mockCallback.passwordValidator('invalid-name')).thenReturn('Invalid!');
 
   when(mockCallback.onSignup(user)).thenAnswer((_) => null);
-  when(mockCallback.onSignup(invalidUser))
-      .thenAnswer((_) => Future.value('Invalid!'));
+  when(mockCallback.onSignup(invalidUser)).thenAnswer((_) => Future.value('Invalid!'));
 
   return [user, invalidUser];
 }
@@ -146,8 +142,7 @@ TextField confirmPasswordTextFieldWidget(WidgetTester tester) {
 }
 
 AnimatedIconButton firstProviderButton() {
-  return find.byType(AnimatedIconButton).evaluate().first.widget
-      as AnimatedIconButton;
+  return find.byType(AnimatedIconButton).evaluate().first.widget as AnimatedIconButton;
 }
 
 AnimatedButton submitButtonWidget() {
@@ -171,8 +166,7 @@ Text recoverIntroTextWidget() {
 }
 
 Text recoverDescriptionTextWidget() {
-  return find.byKey(kRecoverPasswordDescriptionKey).evaluate().single.widget
-      as Text;
+  return find.byKey(kRecoverPasswordDescriptionKey).evaluate().single.widget as Text;
 }
 
 // tester.tap() not working for some reasons. Workaround:
@@ -188,5 +182,4 @@ void clickFirstProvider() => firstProviderButton().onPressed();
 /// the flushbar in my code is displayed for 4 seconds. So we wait for it to
 /// go away.
 /// https://stackoverflow.com/a/57930945/9449426
-Future<void> waitForFlushbarToClose(WidgetTester tester) async =>
-    tester.pump(const Duration(seconds: 4));
+Future<void> waitForFlushbarToClose(WidgetTester tester) async => tester.pump(const Duration(seconds: 4));
