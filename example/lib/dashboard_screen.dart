@@ -18,8 +18,7 @@ class DashboardScreen extends StatefulWidget {
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen>
-    with SingleTickerProviderStateMixin, TransitionRouteAware {
+class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin, TransitionRouteAware {
   Future<bool> _goToLogin(BuildContext context) {
     return Navigator.of(context)
         .pushReplacementNamed('/auth')
@@ -131,10 +130,8 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Widget _buildHeader(ThemeData theme) {
-    final primaryColor =
-        Colors.primaries.where((c) => c == theme.primaryColor).first;
-    final accentColor =
-        Colors.primaries.where((c) => c == theme.colorScheme.secondary).first;
+    final primaryColor = Colors.primaries.where((c) => c == theme.primaryColor).first;
+    final accentColor = Colors.primaries.where((c) => c == theme.colorScheme.secondary).first;
     final linearGradient = LinearGradient(
       colors: [
         primaryColor.shade800,
@@ -280,9 +277,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           MaterialButton(
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             color: Colors.red,
-            onPressed: () => _loadingController!.value == 0
-                ? _loadingController!.forward()
-                : _loadingController!.reverse(),
+            onPressed: () => _loadingController!.value == 0 ? _loadingController!.forward() : _loadingController!.reverse(),
             child: const Text('loading', style: textStyle),
           ),
         ],
