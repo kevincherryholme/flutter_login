@@ -280,6 +280,7 @@ class FlutterLogin extends StatefulWidget {
     dynamic logo,
     this.messages,
     this.theme,
+    this.usernameValidator,
     this.userValidator,
     this.validateUserImmediately,
     this.passwordValidator,
@@ -349,6 +350,10 @@ class FlutterLogin extends StatefulWidget {
   /// shown in the demo gifs and use the colorsheme in the closest `Theme`
   /// widget
   final LoginTheme? theme;
+
+  /// Username validating logic, Returns an error string to display if the input is
+  /// invalid, or null otherwise
+  final FormFieldValidator<String>? usernameValidator;
 
   /// Email validating logic, Returns an error string to display if the input is
   /// invalid, or null otherwise
@@ -723,6 +728,13 @@ class _FlutterLoginState extends State<FlutterLogin> with TickerProviderStateMix
     );
   }
 
+  String? defaultUsernameValidator(String? value) {
+    if (value!.isEmpty || value.length <= 2) {
+      return 'Username is too short!';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final loginTheme = widget.theme ?? LoginTheme();
@@ -732,6 +744,7 @@ class _FlutterLoginState extends State<FlutterLogin> with TickerProviderStateMix
     final cardInitialHeight = loginTheme.cardInitialHeight ?? 300;
     final cardTopPosition = loginTheme.cardTopPosition ?? max(deviceSize.height / 2 - cardInitialHeight / 2, 85);
     final headerHeight = cardTopPosition - headerMargin;
+    final usernameValidator = widget.usernameValidator ?? defaultUsernameValidator;
     final userValidator = widget.userValidator ?? FlutterLogin.defaultEmailValidator;
     final validateUserImmediately = widget.validateUserImmediately ?? false;
     final passwordValidator = widget.passwordValidator ?? FlutterLogin.defaultPasswordValidator;
@@ -793,6 +806,7 @@ class _FlutterLoginState extends State<FlutterLogin> with TickerProviderStateMix
                         userType: widget.userType,
                         padding: EdgeInsets.only(top: cardTopPosition),
                         loadingController: _loadingController,
+                        usernameValidator: usernameValidator,
                         userValidator: userValidator,
                         validateUserImmediately: validateUserImmediately,
                         passwordValidator: passwordValidator,
