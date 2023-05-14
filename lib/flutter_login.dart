@@ -127,6 +127,7 @@ class _Header extends StatefulWidget {
     this.logoWidth = 0.75,
     this.title,
     this.titleTag,
+    this.titleWidget,
     this.height = 250.0,
     this.logoController,
     this.titleController,
@@ -138,6 +139,7 @@ class _Header extends StatefulWidget {
   final double logoWidth;
   final String? title;
   final String? titleTag;
+  final Widget? titleWidget;
   final double height;
   final LoginTheme loginTheme;
   final AnimationController? logoController;
@@ -216,7 +218,9 @@ class __HeaderState extends State<_Header> {
     }
 
     Widget? title;
-    if (widget.titleTag != null && !DartHelper.isNullOrEmpty(widget.title)) {
+    if (widget.titleWidget != null) {
+      title = widget.titleWidget;
+    } else if (widget.titleTag != null && !DartHelper.isNullOrEmpty(widget.title)) {
       title = HeroText(
         widget.title,
         key: kTitleKey,
@@ -270,6 +274,7 @@ class FlutterLogin extends StatefulWidget {
     required this.onLogin,
     required this.onRecoverPassword,
     this.title,
+    this.titleWidget,
 
     /// The [ImageProvider] or asset path [String] for the logo image to be displayed
     dynamic logo,
@@ -330,6 +335,8 @@ class FlutterLogin extends StatefulWidget {
 
   /// The large text above the login [Card], usually the app or company name
   final String? title;
+
+  final Widget? titleWidget;
 
   /// The image provider for the logo image to be displayed
   final ImageProvider? logo;
@@ -538,6 +545,7 @@ class _FlutterLoginState extends State<FlutterLogin> with TickerProviderStateMix
       logoWidth: widget.theme?.logoWidth ?? 0.75,
       title: widget.title,
       titleTag: widget.titleTag,
+      titleWidget: widget.titleWidget,
       loginTheme: loginTheme,
     );
   }
