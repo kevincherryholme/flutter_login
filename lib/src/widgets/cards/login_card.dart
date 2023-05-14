@@ -702,9 +702,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: _buildConfirmPasswordField(
+                  child: _buildUsernameField(
                     textFieldWidth,
-                    messages,
                     auth,
                   ),
                 ),
