@@ -52,6 +52,7 @@ class AuthCard extends StatefulWidget {
     required this.scrollable,
     required this.confirmSignupKeyboardType,
     this.introWidget,
+    this.authCardFooter,
   });
 
   final EdgeInsets padding;
@@ -76,6 +77,7 @@ class AuthCard extends StatefulWidget {
   final bool scrollable;
   final TextInputType? confirmSignupKeyboardType;
   final Widget? introWidget;
+  final Widget? authCardFooter;
 
   @override
   AuthCardState createState() => AuthCardState();
@@ -357,6 +359,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
             loginAfterSignUp: widget.loginAfterSignUp,
             hideProvidersTitle: widget.hideProvidersTitle,
             introWidget: widget.introWidget,
+            authCardFooter: widget.authCardFooter,
           ),
         );
       case _recoveryIndex:

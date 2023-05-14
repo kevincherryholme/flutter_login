@@ -19,6 +19,7 @@ class _LoginCard extends StatefulWidget {
     this.loginAfterSignUp = true,
     this.hideProvidersTitle = false,
     this.introWidget,
+    this.authCardFooter,
   });
 
   final AnimationController loadingController;
@@ -37,6 +38,7 @@ class _LoginCard extends StatefulWidget {
   final bool requireAdditionalSignUpFields;
   final Future<bool> Function() requireSignUpConfirmation;
   final Widget? introWidget;
+  final Widget? authCardFooter;
 
   @override
   _LoginCardState createState() => _LoginCardState();
@@ -107,8 +109,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
     _nameTextFieldLoadingAnimationInterval = const Interval(0, .85);
     _passTextFieldLoadingAnimationInterval = const Interval(.15, 1.0);
-    _textButtonLoadingAnimationInterval =
-        const Interval(.6, 1.0, curve: Curves.easeOut);
+    _textButtonLoadingAnimationInterval = const Interval(.6, 1.0, curve: Curves.easeOut);
     _buttonScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: widget.loadingController,
@@ -117,8 +118,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
 
     _userFocusNode.addListener(() {
-      if (!_userFocusNode.hasFocus &&
-          (widget.validateUserImmediately ?? false)) {
+      if (!_userFocusNode.hasFocus && (widget.validateUserImmediately ?? false)) {
         _userFieldKey.currentState?.validate();
       }
     });
@@ -229,8 +229,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     }
 
     if (auth.isSignup) {
-      final requireSignUpConfirmation =
-          await widget.requireSignUpConfirmation();
+      final requireSignUpConfirmation = await widget.requireSignUpConfirmation();
       if (widget.requireAdditionalSignUpFields) {
         widget.onSwitchSignUpAdditionalData();
         // The login page wil be shown in login mode (used if loginAfterSignUp disabled)
@@ -305,8 +304,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       return false;
     }
 
-    final showSignupAdditionalFields =
-        await loginProvider.providerNeedsSignUpCallback?.call() ?? false;
+    final showSignupAdditionalFields = await loginProvider.providerNeedsSignUpCallback?.call() ?? false;
 
     if (showSignupAdditionalFields) {
       if (auth.beforeAdditionalFieldsCallback != null) {
@@ -351,11 +349,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       width: width,
       loadingController: widget.loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
-      labelText:
-          messages.userHint ?? TextFieldUtils.getLabelText(widget.userType),
-      autofillHints: _isSubmitting
-          ? null
-          : [TextFieldUtils.getAutofillHints(widget.userType)],
+      labelText: messages.userHint ?? TextFieldUtils.getLabelText(widget.userType),
+      autofillHints: _isSubmitting ? null : [TextFieldUtils.getAutofillHints(widget.userType)],
       prefixIcon: TextFieldUtils.getPrefixIcon(widget.userType),
       keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
       textInputAction: TextInputAction.next,
@@ -375,14 +370,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       loadingController: widget.loadingController,
       interval: _passTextFieldLoadingAnimationInterval,
       labelText: messages.passwordHint,
-      autofillHints: _isSubmitting
-          ? null
-          : (auth.isLogin
-              ? [AutofillHints.password]
-              : [AutofillHints.newPassword]),
+      autofillHints: _isSubmitting ? null : (auth.isLogin ? [AutofillHints.password] : [AutofillHints.newPassword]),
       controller: _passController,
-      textInputAction:
-          auth.isLogin ? TextInputAction.done : TextInputAction.next,
+      textInputAction: auth.isLogin ? TextInputAction.done : TextInputAction.next,
       focusNode: _passwordFocusNode,
       onFieldSubmitted: (value) {
         if (auth.isLogin) {
@@ -470,10 +460,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     Auth auth,
     LoginTheme loginTheme,
   ) {
-    final calculatedTextColor =
-        (theme.cardTheme.color!.computeLuminance() < 0.5)
-            ? Colors.white
-            : theme.primaryColor;
+    final calculatedTextColor = (theme.cardTheme.color!.computeLuminance() < 0.5) ? Colors.white : theme.primaryColor;
     return FadeIn(
       controller: widget.loadingController,
       offset: .5,
@@ -482,8 +469,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       child: MaterialButton(
         disabledTextColor: theme.primaryColor,
         onPressed: buttonEnabled ? _switchAuthMode : null,
-        padding: loginTheme.authButtonPadding ??
-            const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
+        padding: loginTheme.authButtonPadding ?? const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         textColor: loginTheme.switchAuthTextColor ?? calculatedTextColor,
         child: AnimatedText(
@@ -541,8 +527,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             button: loginProvider.button,
             callback: loginProvider.callback,
             animated: loginProvider.animated,
-            providerNeedsSignUpCallback:
-                loginProvider.providerNeedsSignUpCallback,
+            providerNeedsSignUpCallback: loginProvider.providerNeedsSignUpCallback,
           ),
         );
       } else if (loginProvider.icon != null) {
@@ -553,8 +538,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             button: loginProvider.button,
             callback: loginProvider.callback,
             animated: loginProvider.animated,
-            providerNeedsSignUpCallback:
-                loginProvider.providerNeedsSignUpCallback,
+            providerNeedsSignUpCallback: loginProvider.providerNeedsSignUpCallback,
           ),
         );
       }
@@ -563,10 +547,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       return Column(
         children: [
           _buildButtonColumn(theme, messages, buttonProvidersList, loginTheme),
-          if (iconProvidersList.isNotEmpty)
-            _buildProvidersTitleSecond(messages)
-          else
-            Container(),
+          if (iconProvidersList.isNotEmpty) _buildProvidersTitleSecond(messages) else Container(),
           _buildIconRow(theme, messages, iconProvidersList, loginTheme),
         ],
       );
@@ -586,8 +567,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: buttonProvidersList.map((loginProvider) {
         return Padding(
-          padding: loginTheme.providerButtonPadding ??
-              const EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+          padding: loginTheme.providerButtonPadding ?? const EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
           child: ScaleTransition(
             scale: _buttonScaleAnimation,
             child: SignInButton(
@@ -614,8 +594,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       children: iconProvidersList.map((loginProvider) {
         final index = iconProvidersList.indexOf(loginProvider);
         return Padding(
-          padding: loginTheme.providerButtonPadding ??
-              const EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+          padding: loginTheme.providerButtonPadding ?? const EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
           child: ScaleTransition(
             scale: _buttonScaleAnimation,
             child: Column(
@@ -706,13 +685,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             ),
           ),
           ExpandableContainer(
-            backgroundColor: _switchAuthController.isCompleted
-                ? null
-                : theme.colorScheme.secondary,
+            backgroundColor: _switchAuthController.isCompleted ? null : theme.colorScheme.secondary,
             controller: _switchAuthController,
-            initialState: isLogin
-                ? ExpandableContainerState.shrunk
-                : ExpandableContainerState.expanded,
+            initialState: isLogin ? ExpandableContainerState.shrunk : ExpandableContainerState.expanded,
             alignment: Alignment.topLeft,
             color: theme.cardTheme.color,
             width: cardWidth,
@@ -754,12 +729,15 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                   SizedBox.fromSize(
                     size: const Size.fromHeight(10),
                   ),
-                if (auth.loginProviders.isNotEmpty &&
-                    !widget.hideProvidersTitle)
-                  _buildProvidersTitleFirst(messages)
-                else
-                  Container(),
+                if (auth.loginProviders.isNotEmpty && !widget.hideProvidersTitle) _buildProvidersTitleFirst(messages) else Container(),
                 _buildProvidersLogInButton(theme, messages, auth, loginTheme),
+                if (widget.authCardFooter != null && isLogin)
+                  FadeIn(
+                      controller: widget.loadingController,
+                      fadeDirection: FadeDirection.bottomToTop,
+                      offset: .5,
+                      curve: _textButtonLoadingAnimationInterval,
+                      child: widget.authCardFooter)
               ],
             ),
           ),

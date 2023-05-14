@@ -304,6 +304,7 @@ class FlutterLogin extends StatefulWidget {
     this.confirmSignupKeyboardType,
     this.headerWidget,
     this.onSwitchToAdditionalFields,
+    this.authCardFooter,
   })  : assert((logo is String?) || (logo is ImageProvider?)),
         logo = logo is String ? AssetImage(logo) : logo as ImageProvider?;
 
@@ -445,6 +446,9 @@ class FlutterLogin extends StatefulWidget {
 
   /// A widget that can be placed on top of the loginCard.
   final Widget? headerWidget;
+
+  /// Optional footer widget inside of the auth card.
+  final Widget? authCardFooter;
 
   static String? defaultEmailValidator(String? value) {
     if (value == null || value.isEmpty || !Regex.email.hasMatch(value)) {
@@ -797,6 +801,7 @@ class _FlutterLoginState extends State<FlutterLogin> with TickerProviderStateMix
                         scrollable: widget.scrollable,
                         confirmSignupKeyboardType: widget.confirmSignupKeyboardType,
                         introWidget: widget.headerWidget,
+                        authCardFooter: widget.authCardFooter,
                       ),
                     ),
                     Positioned(
