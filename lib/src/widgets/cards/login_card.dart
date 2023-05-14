@@ -694,6 +694,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       key: _formKey,
       child: Column(
         children: [
+          Container(
+            height: cardPadding + (isLogin ? 10 : 0),
+          ),
           ExpandableContainer(
             backgroundColor: _switchAuthController.isCompleted ? null : theme.colorScheme.secondary,
             controller: _switchAuthController,
@@ -719,7 +722,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             padding: const EdgeInsets.only(
               left: cardPadding,
               right: cardPadding,
-              top: cardPadding + 10,
             ),
             width: cardWidth,
             child: AutofillGroup(
@@ -786,14 +788,14 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                   ],
                 ),
                 if (auth.loginProviders.isNotEmpty && !widget.hideProvidersTitle) _buildProvidersTitleFirst(messages) else Container(),
-                _buildProvidersLogInButton(theme, messages, auth, loginTheme),
+                if (isLogin) _buildProvidersLogInButton(theme, messages, auth, loginTheme),
                 if (widget.authCardFooter != null && isLogin)
                   FadeIn(
                       controller: widget.loadingController,
                       fadeDirection: FadeDirection.bottomToTop,
                       offset: .5,
                       curve: _textButtonLoadingAnimationInterval,
-                      child: widget.authCardFooter)
+                      child: widget.authCardFooter),
               ],
             ),
           ),

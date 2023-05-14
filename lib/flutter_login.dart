@@ -742,7 +742,7 @@ class _FlutterLoginState extends State<FlutterLogin> with TickerProviderStateMix
     final deviceSize = MediaQuery.of(context).size;
     final headerMargin = loginTheme.headerMargin ?? 15;
     final cardInitialHeight = loginTheme.cardInitialHeight ?? 300;
-    final cardTopPosition = loginTheme.cardTopPosition ?? max(deviceSize.height / 2 - cardInitialHeight / 2, 85);
+    final cardTopPosition = loginTheme.cardTopPosition ?? max(deviceSize.height / 2 - cardInitialHeight / 1.5, 85);
     final headerHeight = cardTopPosition - headerMargin;
     final usernameValidator = widget.usernameValidator ?? defaultUsernameValidator;
     final userValidator = widget.userValidator ?? FlutterLogin.defaultEmailValidator;
