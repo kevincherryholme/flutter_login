@@ -52,8 +52,7 @@ class AnimatedTextFormField extends StatefulWidget {
     this.autofillHints,
     this.tooltip,
   }) : assert(
-          (inertiaController == null && inertiaDirection == null) ||
-              (inertiaController != null && inertiaDirection != null),
+          (inertiaController == null && inertiaDirection == null) || (inertiaController != null && inertiaDirection != null),
         );
 
   final Key? textFormFieldKey;
@@ -144,8 +143,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
           reverseCurve: Curves.easeIn,
         ),
       );
-      iconRotationAnimation =
-          Tween<double>(begin: 0.0, end: sign * pi / 12 /* ~15deg */).animate(
+      iconRotationAnimation = Tween<double>(begin: 0.0, end: sign * pi / 12 /* ~15deg */).animate(
         CurvedAnimation(
           parent: inertiaController,
           curve: const Interval(.5, 1.0, curve: Curves.easeOut),
@@ -289,11 +287,8 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
           validator: widget.validator,
           autofillHints: widget.autofillHints,
           onInputChanged: (phoneNumber) {
-            if (phoneNumber.phoneNumber != null &&
-                phoneNumber.dialCode != null &&
-                phoneNumber.phoneNumber!.startsWith('+')) {
-              _phoneNumberController.text =
-                  _phoneNumberController.text.replaceAll(
+            if (phoneNumber.phoneNumber != null && phoneNumber.dialCode != null && phoneNumber.phoneNumber!.startsWith('+')) {
+              _phoneNumberController.text = _phoneNumberController.text.replaceAll(
                 RegExp(
                   '^([\\+]${phoneNumber.dialCode!.replaceAll('+', '')}[\\s]?)',
                 ),
@@ -309,8 +304,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
           selectorConfig: SelectorConfig(
             selectorType: PhoneInputSelectorType.DIALOG,
             trailingSpace: false,
-            countryComparator: (c1, c2) =>
-                int.parse(c1.dialCode!.substring(1)).compareTo(
+            countryComparator: (c1, c2) => int.parse(c1.dialCode!.substring(1)).compareTo(
               int.parse(c2.dialCode!.substring(1)),
             ),
           ),
@@ -358,7 +352,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
             color: theme.primaryColor,
             iconSize: 28,
             icon: const Icon(Icons.info),
-          )
+          ),
         ],
       );
     }
@@ -411,8 +405,7 @@ class AnimatedPasswordTextFormField extends StatefulWidget {
     this.onSaved,
     this.autofillHints,
   }) : assert(
-          (inertiaController == null && inertiaDirection == null) ||
-              (inertiaController != null && inertiaDirection != null),
+          (inertiaController == null && inertiaDirection == null) || (inertiaController != null && inertiaDirection != null),
         );
 
   final Interval? interval;
@@ -432,12 +425,10 @@ class AnimatedPasswordTextFormField extends StatefulWidget {
   final Iterable<String>? autofillHints;
 
   @override
-  State<AnimatedPasswordTextFormField> createState() =>
-      _AnimatedPasswordTextFormFieldState();
+  State<AnimatedPasswordTextFormField> createState() => _AnimatedPasswordTextFormFieldState();
 }
 
-class _AnimatedPasswordTextFormFieldState
-    extends State<AnimatedPasswordTextFormField> {
+class _AnimatedPasswordTextFormFieldState extends State<AnimatedPasswordTextFormField> {
   var _obscureText = true;
 
   @override
@@ -475,9 +466,7 @@ class _AnimatedPasswordTextFormFieldState
             size: 25.0,
             semanticLabel: 'hide password',
           ),
-          crossFadeState: _obscureText
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
+          crossFadeState: _obscureText ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         ),
       ),
       obscureText: _obscureText,

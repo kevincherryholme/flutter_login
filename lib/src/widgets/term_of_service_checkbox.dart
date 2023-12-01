@@ -45,7 +45,7 @@ class _TermCheckboxState extends State<TermCheckbox> {
                       color: Theme.of(context).textTheme.bodyMedium!.color,
                       size: Theme.of(context).textTheme.bodyMedium!.fontSize,
                     ),
-                  )
+                  ),
                 ],
               ),
             )
@@ -55,9 +55,7 @@ class _TermCheckboxState extends State<TermCheckbox> {
               textAlign: TextAlign.left,
             ),
       validator: (bool? value) {
-        if (widget.validation &&
-            widget.termOfService.mandatory &&
-            !widget.termOfService.checked) {
+        if (widget.validation && widget.termOfService.mandatory && !widget.termOfService.checked) {
           return widget.termOfService.validationErrorMessage;
         }
         return null;

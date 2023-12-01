@@ -1,4 +1,4 @@
-part of auth_card_builder;
+part of 'auth_card_builder.dart';
 
 class _ConfirmRecoverCard extends StatefulWidget {
   const _ConfirmRecoverCard({
@@ -16,8 +16,7 @@ class _ConfirmRecoverCard extends StatefulWidget {
   _ConfirmRecoverCardState createState() => _ConfirmRecoverCardState();
 }
 
-class _ConfirmRecoverCardState extends State<_ConfirmRecoverCard>
-    with SingleTickerProviderStateMixin {
+class _ConfirmRecoverCardState extends State<_ConfirmRecoverCard> with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formRecoverKey = GlobalKey();
 
   final _passwordFocusNode = FocusNode();

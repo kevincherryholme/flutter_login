@@ -908,7 +908,7 @@ void main() {
                 callback: () {
                   return null;
                 },
-              )
+              ),
             ],
             messages: LoginMessages(
               signupButton: 'REGISTER',
@@ -952,7 +952,7 @@ void main() {
                 callback: () {
                   return null;
                 },
-              )
+              ),
             ],
             messages: LoginMessages(
               signupButton: 'REGISTER',

@@ -1,4 +1,4 @@
-part of auth_card_builder;
+part of 'auth_card_builder.dart';
 
 class _LoginCard extends StatefulWidget {
   const _LoginCard({
@@ -639,7 +639,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                     loginProvider: loginProvider,
                   ),
                 ),
-                Text(loginProvider.label)
+                Text(loginProvider.label),
               ],
             ),
           ),
@@ -757,7 +757,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                     auth,
                   ),
                 ),
-                for (var e in auth.termsOfService)
+                for (final e in auth.termsOfService)
                   TermCheckbox(
                     termOfService: e,
                     validation: auth.isSignup,
@@ -773,17 +773,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 Container(height: 4),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (!widget.hideForgotPasswordButton) Expanded(child: _buildForgotPassword(theme, messages)),
                     Column(
                       children: [
                         _buildSubmitButton(theme, messages, auth),
-                        if (!widget.hideSignUpButton)
-                          _buildSwitchAuthButton(theme, messages, auth, loginTheme)
-                        else
-                          SizedBox.fromSize(
-                            size: const Size.fromHeight(10),
-                          ),
+                        if (!widget.hideSignUpButton) _buildSwitchAuthButton(theme, messages, auth, loginTheme),
                       ],
                     ),
                   ],
@@ -792,11 +788,12 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 if (isLogin) _buildProvidersLogInButton(theme, messages, auth, loginTheme),
                 if (widget.authCardFooter != null && isLogin)
                   FadeIn(
-                      controller: widget.loadingController,
-                      fadeDirection: FadeDirection.bottomToTop,
-                      offset: .5,
-                      curve: _textButtonLoadingAnimationInterval,
-                      child: widget.authCardFooter),
+                    controller: widget.loadingController,
+                    fadeDirection: FadeDirection.bottomToTop,
+                    offset: .5,
+                    curve: _textButtonLoadingAnimationInterval,
+                    child: widget.authCardFooter,
+                  ),
               ],
             ),
           ),

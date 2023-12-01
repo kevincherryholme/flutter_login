@@ -1,4 +1,4 @@
-part of auth_card_builder;
+part of 'auth_card_builder.dart';
 
 class _AdditionalSignUpCard extends StatefulWidget {
   _AdditionalSignUpCard({
@@ -53,10 +53,10 @@ class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard> with Ticke
     super.initState();
 
     _nameControllers = {
-      for (var formField in widget.formFields)
+      for (final formField in widget.formFields)
         formField.keyName: TextEditingController(
           text: formField.defaultValue,
-        )
+        ),
     };
 
     if (_nameControllers.length != widget.formFields.length) {
@@ -188,7 +188,7 @@ class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard> with Ticke
             ),
             const SizedBox(
               height: 5,
-            )
+            ),
           ],
         );
       }).toList(),

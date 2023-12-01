@@ -282,9 +282,9 @@ class IntroWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        const Text.rich(
+        Text.rich(
           TextSpan(
             children: [
               TextSpan(
@@ -299,7 +299,7 @@ class IntroWidget extends StatelessWidget {
           textAlign: TextAlign.justify,
         ),
         Row(
-          children: const <Widget>[
+          children: <Widget>[
             Expanded(child: Divider()),
             Padding(
               padding: EdgeInsets.all(8.0),
